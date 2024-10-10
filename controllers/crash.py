@@ -43,7 +43,7 @@ def crashes_stats(beat):
     crashes = get_crash_stats(beat)
     if not crashes:
         return jsonify({'message': 'No crashes found'}), 404
-    return jsonify({'crashes': crashes}), 200
+    return jsonify({'stats': crashes}), 200
 
 
 

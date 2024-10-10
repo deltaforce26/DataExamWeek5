@@ -32,11 +32,12 @@ def get_crash_stats(beat):
     crashes_list = list(crashes.aggregate([
         {"$lookup": {'from': 'beats', 'localField': 'beat_id', 'foreignField': '_id', 'as': 'beat'}},
         {'$match': {'beat.beat': beat}},
+        {'$project':{'_id':0, 'beat_id':0, 'beat._id': 0}},
         {'$group':{'_id':None,
                    'total_injuries':{'$sum':'$injuries.total_injuries'},
                    'total_fatal_injuries': {'$sum': '$injuries.fatal_injuries'},
-                   'total_non_fatal_injuries': {'$sum': {'$subtract': ['$injuries.total_injuries', '$injuries.fatal_injuries']}}
-                   }},
+                   'total_non_fatal_injuries': {'$sum': {'$subtract': ['$injuries.total_injuries', '$injuries.fatal_injuries']}},
+                   'crashes': {'$push': {'crash': '$$ROOT'}}}},
         {'$project':{'_id':0}}
     ]))
     return crashes_list
