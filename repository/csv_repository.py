@@ -11,8 +11,8 @@ def read_csv(csv_path):
 
 
 def init_crashes_db(file_path):
-    if crashes.count_documents() > 0:
-        return 'database is already initialized'
+    if crashes.count_documents({}) > 0:
+        return False
     crashes.drop()
     beats.drop()
 
@@ -30,7 +30,7 @@ def init_crashes_db(file_path):
             'beat': row['BEAT_OF_OCCURRENCE'],
         }
 
-        beat_id = beats.update_one({'beat': beat }, {"$setOnInsert": beat}, upsert=True).upserted_id()
+        beat_id = beats.update_one({'beat': beat }, {"$setOnInsert": beat}, upsert=True).upserted_id
 
         injury = {
             'most_severe_injury': row['MOST_SEVERE_INJURY'],
@@ -52,8 +52,8 @@ def init_crashes_db(file_path):
             'injuries': injury,
         }
 
-        crash_id = crashes.insert_one(crash).inserted_id()
-    return 'database is initialized'
+        crash_id = crashes.insert_one(crash).inserted_id
+    return True
 
 
 
