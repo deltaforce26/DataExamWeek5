@@ -18,6 +18,7 @@ def init_crashes_db(file_path):
 
 
     for row in read_csv(file_path):
+        print('loading data...')
         road = {
             'traffic_way_type': row['TRAFFICWAY_TYPE'],
             'lane_cnt': row['LANE_CNT'],
@@ -34,10 +35,10 @@ def init_crashes_db(file_path):
 
         injury = {
             'most_severe_injury': row['MOST_SEVERE_INJURY'],
-            'total_injuries': row['INJURIES_TOTAL'],
-            'fatal_injuries': row['INJURIES_FATAL'],
-            'injuries_incapacitating': row['INJURIES_INCAPACITATING'],
-            'injuries_non_incapacitating': row['INJURIES_NON_INCAPACITATING'],
+            'total_injuries': int(row['INJURIES_TOTAL']) if row['INJURIES_TOTAL'] else 0,
+            'fatal_injuries': int(row['INJURIES_FATAL']) if row['INJURIES_FATAL'] else 0,
+            'injuries_incapacitating': int(row['INJURIES_INCAPACITATING']) if row['INJURIES_INCAPACITATING'] else 0,
+            'injuries_non_incapacitating': int(row['INJURIES_NON_INCAPACITATING']) if row['INJURIES_NON_INCAPACITATING'] else 0,
         }
 
         crash = {

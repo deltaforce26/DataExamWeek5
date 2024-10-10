@@ -1,13 +1,14 @@
 from flask import Flask
-from repository.csv_repository import init_crashes_db
+from controllers.crash import crash_bp
+from controllers.index import index_bp
 
 app = Flask(__name__)
 
 
-with app.app_context():
-    init_crashes_db('data/Traffic_Crashes_-_Crashes - 20k rows.csv')
+app.register_blueprint(crash_bp)
+app.register_blueprint(index_bp)
 
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
